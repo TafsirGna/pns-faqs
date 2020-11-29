@@ -45,6 +45,12 @@ class Faq
      */
     private $questions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plateform::class, inversedBy="faqs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plateform;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -129,6 +135,18 @@ class Faq
                 $question->setFaq(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlateform(): ?Plateform
+    {
+        return $this->plateform;
+    }
+
+    public function setPlateform(?Plateform $plateform): self
+    {
+        $this->plateform = $plateform;
 
         return $this;
     }

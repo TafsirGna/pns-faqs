@@ -1,3 +1,9 @@
+ <div class = "clearfix w-100">
+    <a class="btn btn-secondary my-2 btn-light float-right small" type="button" href="{{path('dashboard_new_faq')}}">
+        <span class = "text-success font-italic">New</span>
+    </a>
+</div>
+
 {% if faqs|length == 0 %}
     <div class="alert alert-primary small font-italic" role="alert">
         No recorded faqs 
@@ -7,18 +13,34 @@
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">name</th>
+            <th scope="col">description</th>
+            <th scope="col">Plateform</th>
+            <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            </tr>
+            {% for faq in faqs %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{faq.name}}</td>
+                    <td>{{faq.description}}</td>
+                    <td>{{faq.plateform.name}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle float-right small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item font-italic small" href="/logout">Edit</a>
+                                <a class="dropdown-item text-danger font-italic small" href="/logout">Delete</a>
+                                {# <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a> #}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endif %}
