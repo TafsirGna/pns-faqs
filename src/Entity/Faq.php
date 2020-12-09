@@ -46,10 +46,14 @@ class Faq
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Plateform::class, inversedBy="faqs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Cluster::class, mappedBy="faq", cascade={"persist", "remove"})
      */
-    private $plateform;
+    private $cluster;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Platform::class, mappedBy="faq", cascade={"persist", "remove"})
+     */
+    private $platform;
 
     public function __construct()
     {
@@ -139,14 +143,36 @@ class Faq
         return $this;
     }
 
-    public function getPlateform(): ?Plateform
+    public function getCluster(): ?Cluster
     {
-        return $this->plateform;
+        return $this->cluster;
     }
 
-    public function setPlateform(?Plateform $plateform): self
+    public function setCluster(Cluster $cluster): self
     {
-        $this->plateform = $plateform;
+        $this->cluster = $cluster;
+
+        // set the owning side of the relation if necessary
+        if ($cluster->getFaq() !== $this) {
+            $cluster->setFaq($this);
+        }
+
+        return $this;
+    }
+
+    public function getPlatform(): ?Platform
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(Platform $platform): self
+    {
+        $this->platform = $platform;
+
+        // set the owning side of the relation if necessary
+        if ($platform->getFaq() !== $this) {
+            $platform->setFaq($this);
+        }
 
         return $this;
     }

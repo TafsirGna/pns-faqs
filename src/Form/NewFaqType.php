@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Faq;
-use App\Entity\Plateform;
+use App\Entity\Platform;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,13 +24,13 @@ class NewFaqType extends AbstractType
             ->add('description', TextareaType::class)
             // ->add('createdAt')
             // ->add('createdBy')
-            ->add('plateform', EntityType::class, [
-                "class" =>  Plateform::class,
+            ->add('platform', EntityType::class, [
+                "class" =>  Platform::class,
                 "choice_label"  =>  "name",
                 "multiple"  =>  false,
                 "expanded"  =>  false,
                 "required"  =>  true,
-                "label"     =>  "Plateform",
+                "label"     =>  "Platform",
                 // "query_builder" => function(SessionRepository $repository) use ($organisateur){
                 //     return $repository->getAllOfOrgQueryBuilder($this->security);
                 // },

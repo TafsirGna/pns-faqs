@@ -3,18 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Faq;
-use App\Entity\Plateform;
+use App\Entity\Platform;
 use App\Form\NewFaqType;
-use App\Form\NewPlateformType;
+use App\Form\NewPlatformType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/dashboard", name="dashboard")
+ */
+
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/dashboard", name="dashboard")
+     * @Route("/", name="_index")
      */
     public function index(): Response
     {
@@ -32,57 +36,89 @@ class DashboardController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard/plateforms", name="dashboard_plateforms")
+     * @Route("/platforms", name="_platforms")
      */
-    public function listPlateforms(): Response
+    public function listPlatforms(): Response
     {
 
-        $plateforms = $this->getDoctrine()
+        $platforms = $this->getDoctrine()
                      ->getManager()
-                     ->getRepository(Plateform::class)
+                     ->getRepository(Platform::class)
                      ->findAll();
 
-        return $this->render('dashboard/plateforms/list.html.twig', [
+        return $this->render('dashboard/platforms/list.html.twig', [
             'controller_name' => 'DashboardController',
-            'plateforms'  =>  $plateforms,
-            'selected_menu' =>  "plateforms",
+            'platforms'  =>  $platforms,
+            'selected_menu' =>  "platforms",
         ]);
     }
 
     /**
-     * @Route("/dashboard/plateform/new", name="dashboard_new_plateform")
+     * @Route("/platform/new", name="_new_platform")
      */
-    public function newPlateform(Request $request): Response
+    public function newPlatform(Request $request): Response
     {
 
         // just setup a fresh $task object (remove the example data)
-        $plateform = new Plateform();
+        $platform = new Platform();
 
-        $form = $this->createForm(NewPlateformType::class, $plateform);
+        $form = $this->createForm(NewPlatformType::class, $platform);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $plateform = $form->getData();
+            $platform = $form->getData();
 
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($task);
-            // $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($platform);
+            $entityManager->flush();
 
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('dashboard/plateforms/new.html.twig', [
+        return $this->render('dashboard/platforms/new.html.twig', [
             'controller_name' => 'DashboardController',
-            'selected_menu' =>  "plateforms",
+            'selected_menu' =>  "platforms",
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/dashboard/faq/new", name="dashboard_new_faq")
+     * @Route("/platform/edit/{id}", name="_platform_edition")
+     */
+    public function editPlatform(Request $request, Platform $platform): Response
+    {
+
+        // just setup a fresh $task object (remove the example data)
+        // $platform = new Platform();
+
+        $form = $this->createForm(NewPlatformType::class, $platform);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $platform = $form->getData();
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($platform);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('dashboard/platforms/new.html.twig', [
+            'controller_name' => 'DashboardController',
+            'selected_menu' =>  "platforms",
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/faq/new", name="_new_faq")
      */
     public function newFaq(Request $request): Response
     {
@@ -107,7 +143,7 @@ class DashboardController extends AbstractController
             $entityManager->persist($faq);
             $entityManager->flush();
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard_index');
         }
 
         return $this->render('dashboard/faqs/new.html.twig', [
@@ -115,5 +151,45 @@ class DashboardController extends AbstractController
             'selected_menu' =>  "faqs",
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/faq/delete/{id}", name="_faq_deletion")
+     */
+    public function deleteFaq(Request $request, Faq $faq): Response
+    {
+
+        $em = $this->getDoctrine()
+                    ->getManager();
+
+        try {
+            //code...
+            $em->remove($faq);
+            $em->flush();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return $this->redirectToRoute("dashboard");
+    }
+
+    /**
+     * @Route("/platform/delete/{id}", name="_platform_deletion")
+     */
+    public function deletePlatform(Request $request, Platform $platform): Response
+    {
+
+        $em = $this->getDoctrine()
+                    ->getManager();
+
+        try {
+            //code...
+            $em->remove($platform);
+            $em->flush();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return $this->redirectToRoute("dashboard");
     }
 }
