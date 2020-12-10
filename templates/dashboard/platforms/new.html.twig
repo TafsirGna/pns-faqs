@@ -4,7 +4,7 @@
 
 {% block tabContentArea %}
     
-    <h3>New faq</h3>
+    <h3>New platform</h3>
 
     {{ form_start(form, { 'attr': {'class': 'mt-3'} })}}
 
@@ -22,24 +22,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <lablel class="control-label">{{ form_label(form.description) }}</lablel>
-                    {{ form_errors(form.description, { 'attr': {'class': ''} }) }}
-                    {{ form_widget(form.description, { 'attr': {'class': 'form-control', "autofocus": null} }) }}
-                    {{ form_help(form.description) }}
+                    <lablel class="control-label">{{ form_label(form.catisId) }}</lablel>
+                    {{ form_errors(form.catisId, { 'attr': {'class': ''} }) }}
+                    {{ form_widget(form.catisId, { 'attr': {'class': 'form-control', "autofocus": null} }) }}
+                    {{ form_help(form.catisId) }}
                 </div>
             </div>
         </div>
 
-        {# <div class="row">
+        <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <lablel class="control-label">{{ form_label(form.platform) }}</lablel>
-                    {{ form_errors(form.platform, { 'attr': {'class': ''} }) }}
-                    {{ form_widget(form.platform, { 'attr': {'class': 'form-control', "autofocus": null} }) }}
-                    {{ form_help(form.platform) }}
+                    <lablel class="control-label">{{ form_label(form.faq) }}</lablel>
+                    {{ form_errors(form.faq, { 'attr': {'class': ''} }) }}
+                    {{ form_widget(form.faq, { 'attr': {'class': 'form-control', "autofocus": null} }) }}
+                    {{ form_help(form.faq) }}
                 </div>
             </div>
-        </div> #}
+        </div>
 
         <div class="row">
             <div class="col-12">

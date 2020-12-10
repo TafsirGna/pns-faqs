@@ -28,8 +28,7 @@ class Answer
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Question::class, mappedBy="answer", cascade={"persist", "remove"})
      */
     private $question;
 
@@ -70,6 +69,12 @@ class Answer
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newAnswer = null === $question ? null : $this;
+        if ($question->getAnswer() !== $newAnswer) {
+            $question->setAnswer($newAnswer);
+        }
 
         return $this;
     }

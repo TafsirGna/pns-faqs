@@ -1,0 +1,58 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block tabContentArea %}
+
+    <div class = "clearfix w-100 py-2">
+        <h5 class = "float-left">Liste des platformes</h5>
+        <a class="btn btn-sm btn-light float-right small" type="button" href="{{path('dashboard_new_platform')}}">
+            <span class = "text-success font-italic">New</span>
+        </a>
+    </div>
+
+    {% if platforms|length == 0 %}
+        <div class="alert alert-primary small font-italic" role="alert">
+            No recorded platforms 
+        </div>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">CatIs Id</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for platform in platforms %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{platform.name}}</td>
+                        <td>
+                        {% if platform.catisId != '' %}
+                            {{platform.catisId}}
+                        {% else %}
+                            <i>{{'(null)'}}</i>
+                        {% endif %}
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle float-right small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item font-italic small" href="{{path('dashboard_platform_edition', {id: platform.id})}}">Edit</a>
+                                    <a class="dropdown-item text-danger font-italic small" href="{{path('dashboard_platform_deletion', {id: platform.id})}}">Delete</a>
+                                    {# <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a> #}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

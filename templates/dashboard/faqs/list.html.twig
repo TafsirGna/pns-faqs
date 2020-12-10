@@ -1,6 +1,6 @@
  <div class = "clearfix w-100 py-2">
     <h5 class = "float-left">Liste des faqs</h5>
-    <a class="btn btn-secondary btn-light float-right small" type="button" href="{{path('dashboard_new_faq')}}">
+    <a class="btn btn-sm btn-light float-right small" type="button" href="{{path('dashboard_new_faq')}}">
         <span class = "text-success font-italic">New</span>
     </a>
 </div>
@@ -26,14 +26,19 @@
                     <th scope="row">{{loop.index}}</th>
                     <td>{{faq.name}}</td>
                     <td>{{faq.description}}</td>
-                    <td>{{faq.platform.name}}</td>
+                    {% if faq.platform is null %}
+                        <td class = "font-italic">(null)</td>
+                    {% else %}
+                        <td class = "font-italic">{{faq.platform.name}}</td>
+                    {% endif %}
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary btn-sm dropdown-toggle float-right small" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Actions
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item font-italic small" href="/logout">Edit</a>
+                                <a class="dropdown-item font-italic small" href="{{path('dashboard_faq_edition', {id: faq.id})}}">Edit</a>
+                                <a class="dropdown-item font-italic small" href="{{path('dashboard_faq_questions', {id: faq.id})}}">All questions</a>
                                 <a class="dropdown-item text-danger font-italic small" href="{{path('dashboard_faq_deletion', {id: faq.id})}}">Delete</a>
                                 {# <a class="dropdown-item" href="#">Another action</a>
                                 <a class="dropdown-item" href="#">Something else here</a> #}
